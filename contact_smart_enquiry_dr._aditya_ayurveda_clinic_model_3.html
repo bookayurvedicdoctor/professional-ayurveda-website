@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "secondary-fixed-dim": "#b3cdb3",
+          "surface-container-lowest": "#ffffff",
+          "on-tertiary-fixed": "#1d1c13",
+          "secondary-container": "#ceeace",
+          "on-tertiary-container": "#c8c4b7",
+          "surface-tint": "#326850",
+          "surface-dim": "#cfded3",
+          "on-background": "#121e18",
+          "surface-container-low": "#e8f7ed",
+          "on-surface-variant": "#404943",
+          "secondary-fixed": "#ceeace",
+          "tertiary-fixed": "#e7e2d4",
+          "surface": "#eefdf2",
+          "outline": "#707973",
+          "inverse-surface": "#26332c",
+          "tertiary": "#3c3a31",
+          "primary-fixed-dim": "#9ad3b4",
+          "on-error": "#ffffff",
+          "on-primary-container": "#98d1b2",
+          "primary-fixed": "#b5efd0",
+          "on-secondary-fixed-variant": "#354c38",
+          "surface-bright": "#eefdf2",
+          "on-surface": "#121e18",
+          "outline-variant": "#c0c9c1",
+          "inverse-primary": "#9ad3b4",
+          "on-secondary-fixed": "#09200f",
+          "primary-container": "#245b43",
+          "surface-container-highest": "#d7e6dc",
+          "on-secondary": "#ffffff",
+          "error": "#ba1a1a",
+          "surface-container": "#e2f2e7",
+          "on-primary-fixed": "#002114",
+          "error-container": "#ffdad6",
+          "on-tertiary-fixed-variant": "#49473d",
+          "on-tertiary": "#ffffff",
+          "surface-container-high": "#ddece1",
+          "on-primary-fixed-variant": "#175039",
+          "tertiary-fixed-dim": "#cbc6b9",
+          "surface-variant": "#d7e6dc",
+          "secondary": "#4c644e",
+          "on-error-container": "#93000a",
+          "background": "#eefdf2",
+          "on-primary": "#ffffff",
+          "primary": "#05432d",
+          "on-secondary-container": "#526a54",
+          "inverse-on-surface": "#e5f4ea",
+          "tertiary-container": "#535147"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "space-md": "1rem",
+          "margin-mobile": "1.25rem",
+          "space-xs": "0.25rem",
+          "gutter": "1.5rem",
+          "space-lg": "1.5rem",
+          "space-sm": "0.5rem",
+          "space-xl": "2.5rem",
+          "margin": "3rem",
+          "gutter-mobile": "1rem"
+        },
+        "fontFamily": {
+          "label-lg": ["Plus Jakarta Sans"],
+          "display-hero-mobile": ["Playfair Display"],
+          "headline-lg": ["Playfair Display"],
+          "label-sm": ["Plus Jakarta Sans"],
+          "headline-sm": ["Playfair Display"],
+          "body-md": ["Plus Jakarta Sans"],
+          "title-md": ["Plus Jakarta Sans"],
+          "display-hero": ["Playfair Display"],
+          "body-lg": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Playfair Display"],
+          "headline-md": ["Playfair Display"],
+          "body-sm": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+          "display-hero-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+          "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.015em", "fontWeight": "500" }],
+          "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+          "headline-sm": ["22px", { "lineHeight": "30px", "fontWeight": "600" }],
+          "body-md": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+          "title-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+          "display-hero": ["56px", { "lineHeight": "68px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+          "body-lg": ["18px", { "lineHeight": "30px", "fontWeight": "400" }],
+          "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+          "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "500" }],
+          "body-sm": ["14px", { "lineHeight": "22px", "fontWeight": "400" }]
+        }
+      }
+    }
+  };
+  </script>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased selection:bg-secondary-container selection:text-primary">
+<!-- Header with Brand, Desktop Nav, and Dedicated Responsive Mobile Bar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-md shadow-[0_1px_6px_rgba(0,0,0,0.03)] border-b border-surface-container-high/40">
+<div class="h-28 md:h-20 max-w-[1280px] mx-auto px-margin-mobile md:px-margin flex flex-col justify-center">
+<!-- Top Tier: Branding & Quick Action CTA -->
+<div class="flex items-center justify-between h-14 md:h-20">
+<a class="flex items-center gap-space-sm text-left group" data-path="home" href="index.html">
+<div class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-secondary-container flex items-center justify-center text-primary transition-transform group-hover:scale-105">
+<span class="material-symbols-outlined text-[20px] md:text-[22px]">spa</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-[19px] md:text-headline-sm tracking-tight text-primary leading-tight font-semibold">Dr. Aditya Ayurveda Clinic</span>
+<span class="font-label-sm text-[11px] md:text-label-sm text-on-surface-variant font-medium">Dr. Aditya Navnath Shinde, BAMS</span>
+</div>
+</a>
+<!-- Desktop Navigation Bar -->
+<nav class="hidden md:flex items-center gap-space-lg" data-active-classes="text-primary font-bold border-b-2 border-primary pb-1">
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="home" href="index.html">Home</a>
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="services" href="services.html">Services</a>
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="about-doctor" href="about.html">About Doctor</a>
+<a aria-current="page" class="transition-colors text-primary font-bold border-b-2 border-primary pb-1" data-path="contact" href="contact.html">Contact</a>
+</nav>
+<!-- Header CTA Pill -->
+<div class="flex items-center gap-space-sm">
+<a class="inline-flex items-center gap-space-xs px-space-md py-space-xs md:py-space-sm rounded-full bg-primary-container text-on-primary hover:bg-primary transition-all font-label-lg text-xs md:text-label-lg shadow-[0_2px_6px_-1px_rgba(38,51,44,0.08)]" href="https://wa.me/919657969379" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[17px]">chat</span>
+<span class="whitespace-nowrap font-medium">WhatsApp</span>
+</a>
+</div>
+</div>
+<!-- Mobile Direct Navigation Strip (Visible directly beneath header, no hidden menu) -->
+<nav class="md:hidden flex items-center justify-around h-11 border-t border-surface-container-high/60 px-space-xs bg-surface-container-lowest/70 backdrop-blur-sm rounded-lg mb-1" data-active-classes="text-primary font-bold bg-surface-container-low px-space-sm py-1 rounded">
+<a class="font-label-sm text-xs text-on-surface-variant hover:text-on-surface text-center px-1 transition-colors" data-path="home" href="index.html">Home</a>
+<span class="text-outline-variant text-[10px]">•</span>
+<a class="font-label-sm text-xs text-on-surface-variant hover:text-on-surface text-center px-1 transition-colors" data-path="services" href="services.html">Services</a>
+<span class="text-outline-variant text-[10px]">•</span>
+<a class="font-label-sm text-xs text-on-surface-variant hover:text-on-surface text-center px-1 transition-colors" data-path="about-doctor" href="about.html">About Doctor</a>
+<span class="text-outline-variant text-[10px]">•</span>
+<a aria-current="page" class="transition-colors text-primary font-bold bg-surface-container-low px-space-sm py-1 rounded" data-path="contact" href="contact.html">Contact</a>
+</nav>
+</div>
+</header>
+<!-- Main Content Slot -->
+<main class="w-full pt-28 md:pt-20 bg-surface min-h-[calc(100vh-140px)]">
+<div class="flex flex-col w-full">
+<!-- Top Ambient Glow and Breadcrumbs Tier -->
+<section class="relative w-full overflow-hidden bg-surface-container-low pb-space-lg pt-space-md">
+<div class="absolute -top-24 right-0 w-96 h-96 rounded-full bg-secondary-container/40 blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-24 left-1/4 w-80 h-80 rounded-full bg-primary-fixed/20 blur-3xl pointer-events-none"></div>
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin relative z-10">
+<!-- Breadcrumb Navigation -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant mb-space-md">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="index.html">
+<span class="material-symbols-outlined text-[15px]">home</span>
+<span>Home</span>
+</a>
+<span class="text-outline-variant font-medium">/</span>
+<span class="text-primary font-semibold">Contact &amp; Enquiry</span>
+</nav>
+<!-- Editorial Intro Block -->
+<div class="max-w-3xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-lowest text-primary font-label-sm text-label-sm mb-space-sm shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span>Official Consultation Portal • Model 3 Professional</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight mb-space-sm">
+          Let's Connect &amp; Start Your Enquiry
+        </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+          For online Ayurveda consultation enquiries, choose your concern below and continue directly on WhatsApp with Dr. Aditya Navnath Shinde, BAMS. Structured, private, and tailored to your clinical constitution.
+        </p>
+</div>
+</div>
+</section>
+<!-- Interactive Visual Need Selector (#enquiry) -->
+<section class="w-full py-space-xl bg-surface" id="enquiry">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin">
+<!-- Selector Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg gap-space-sm">
+<div>
+<span class="font-label-sm text-label-sm tracking-wider uppercase text-secondary font-bold">Step 01 • Diagnostic Orientation</span>
+<h2 class="font-headline-md text-headline-md text-primary mt-1">What are you looking for?</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-md">
+          Select an intent card below. Your choice immediately presets the structured WhatsApp enquiry protocol.
+        </p>
+</div>
+<!-- 4 Interactive Option Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter" id="needCardsContainer">
+<!-- Option 1 -->
+<button class="need-card text-left p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all duration-200 group flex flex-col justify-between relative overflow-hidden ring-2 ring-primary bg-surface-container-low/40" data-service-value="Online Ayurveda Consultation" type="button">
+<div class="flex items-center justify-between w-full mb-space-md">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[26px]">medical_services</span>
+</div>
+<span class="active-badge inline-flex items-center gap-1 font-label-sm text-[11px] px-2 py-0.5 rounded-full bg-primary text-on-primary font-semibold">Selected</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface group-hover:text-primary font-semibold mb-1 transition-colors">
+              Online Ayurveda Consultation
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+              Comprehensive Rogi Pariksha, doshic imbalance diagnosis, and therapeutic herbal prescriptions.
+            </p>
+</div>
+</button>
+<!-- Option 2 -->
+<button class="need-card text-left p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all duration-200 group flex flex-col justify-between relative overflow-hidden ring-0" data-service-value="Lifestyle Guidance" type="button">
+<div class="flex items-center justify-between w-full mb-space-md">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-secondary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[26px]">routine</span>
+</div>
+<span class="active-badge hidden items-center gap-1 font-label-sm text-[11px] px-2 py-0.5 rounded-full bg-primary text-on-primary font-semibold">Selected</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface group-hover:text-primary font-semibold mb-1 transition-colors">
+              Lifestyle Guidance
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+              Dinacharya (daily cycles), Ritucharya (seasonal tuning), and restorative circadian adjustments.
+            </p>
+</div>
+</button>
+<!-- Option 3 -->
+<button class="need-card text-left p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all duration-200 group flex flex-col justify-between relative overflow-hidden ring-0" data-service-value="Diet &amp; Wellness Guidance" type="button">
+<div class="flex items-center justify-between w-full mb-space-md">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-secondary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[26px]">nutrition</span>
+</div>
+<span class="active-badge hidden items-center gap-1 font-label-sm text-[11px] px-2 py-0.5 rounded-full bg-primary text-on-primary font-semibold">Selected</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface group-hover:text-primary font-semibold mb-1 transition-colors">
+              Diet &amp; Wellness Guidance
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+              Ahara planning, digestive fire (Agni) correction, food compatibility, and therapeutic nutrition.
+            </p>
+</div>
+</button>
+<!-- Option 4 -->
+<button class="need-card text-left p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all duration-200 group flex flex-col justify-between relative overflow-hidden ring-0" data-service-value="General Enquiry" type="button">
+<div class="flex items-center justify-between w-full mb-space-md">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-secondary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[26px]">chat_bubble</span>
+</div>
+<span class="active-badge hidden items-center gap-1 font-label-sm text-[11px] px-2 py-0.5 rounded-full bg-primary text-on-primary font-semibold">Selected</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface group-hover:text-primary font-semibold mb-1 transition-colors">
+              General Enquiry
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+              Treatment availability, medicine dispensing details, consultation structure, and general clinic questions.
+            </p>
+</div>
+</button>
+</div>
+<!-- Main Form & Clinical Overview Grid -->
+<div class="mt-space-xl grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Left Side: SMART ENQUIRY FORM CONTAINER (8 Columns) -->
+<div class="lg:col-span-8 bg-surface-container-lowest p-space-md sm:p-space-lg md:p-space-xl rounded-xl shadow-md">
+<div class="mb-space-lg">
+<div class="flex items-center gap-2 mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Step 02 • Pre-Fill Clinical Request</span>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Smart WhatsApp Enquiry Form</h3>
+<div class="p-space-sm bg-surface-container-low rounded-lg flex items-start gap-2.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5 shrink-0">info</span>
+<p class="font-body-sm text-xs sm:text-body-sm leading-relaxed">
+                Fill in basic details to generate your structured WhatsApp enquiry. <strong>No automatic charges or bookings</strong>; you review the message and manually tap Send on WhatsApp directly to Dr. Aditya.
+              </p>
+</div>
+</div>
+<form class="flex flex-col gap-space-md" id="smartEnquiryForm" novalidate="">
+<!-- Row 1: Full Name & Mobile Number -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface flex items-center gap-1 font-semibold" for="fullName">
+<span>Full Name</span>
+<span class="text-error">*</span>
+</label>
+<div class="relative">
+<input autocomplete="name" class="w-full px-space-md py-3 rounded-lg bg-surface-container-low/50 text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all placeholder:text-outline/60" id="fullName" name="fullName" placeholder="e.g. Rahul Patil" type="text"/>
+</div>
+<span class="hidden font-label-sm text-[12px] text-error flex items-center gap-1 mt-0.5" id="nameError">
+<span class="material-symbols-outlined text-[14px]">error</span>
+                  Please enter your full name.
+                </span>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface flex items-center gap-1 font-semibold" for="mobileNumber">
+<span>Mobile Number</span>
+<span class="text-error">*</span>
+</label>
+<div class="relative">
+<input autocomplete="tel" class="w-full px-space-md py-3 rounded-lg bg-surface-container-low/50 text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all placeholder:text-outline/60" id="mobileNumber" maxlength="10" name="mobileNumber" placeholder="10-digit mobile number, e.g. 9820012345" type="tel"/>
+</div>
+<span class="hidden font-label-sm text-[12px] text-error flex items-center gap-1 mt-0.5" id="phoneError">
+<span class="material-symbols-outlined text-[14px]">error</span>
+                  Please enter a valid 10-digit Indian phone number.
+                </span>
+</div>
+</div>
+<!-- Row 2: Email & Service / Need Dropdown -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface flex items-center gap-1 font-semibold" for="emailAddress">
+<span>Email Address</span>
+<span class="text-outline text-xs font-normal">(Optional)</span>
+</label>
+<div class="relative">
+<input autocomplete="email" class="w-full px-space-md py-3 rounded-lg bg-surface-container-low/50 text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all placeholder:text-outline/60" id="emailAddress" name="emailAddress" placeholder="e.g. rahul@example.com" type="email"/>
+</div>
+<span class="hidden font-label-sm text-[12px] text-error flex items-center gap-1 mt-0.5" id="emailError">
+<span class="material-symbols-outlined text-[14px]">error</span>
+                  Please enter a valid email address.
+                </span>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface flex items-center gap-1 font-semibold" for="serviceSelect">
+<span>Service / Need</span>
+<span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full px-space-md py-3 rounded-lg bg-surface-container-low/50 text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all appearance-none cursor-pointer" id="serviceSelect" name="serviceSelect">
+<option value="Online Ayurveda Consultation">Online Ayurveda Consultation</option>
+<option value="Lifestyle Guidance">Lifestyle Guidance</option>
+<option value="Diet &amp; Wellness Guidance">Diet &amp; Wellness Guidance</option>
+<option value="General Enquiry">General Enquiry</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3.5 pointer-events-none text-on-surface-variant text-[20px]">expand_more</span>
+</div>
+<span class="hidden font-label-sm text-[12px] text-error flex items-center gap-1 mt-0.5" id="serviceError">
+<span class="material-symbols-outlined text-[14px]">error</span>
+                  Please select your enquiry topic.
+                </span>
+</div>
+</div>
+<!-- Row 3: Preferred Consultation Time (Pill Selectors) -->
+<div class="flex flex-col gap-2 pt-1">
+<label class="font-label-sm text-label-sm text-on-surface flex items-center gap-1 font-semibold">
+<span>Preferred Consultation Time</span>
+<span class="text-error">*</span>
+</label>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="timeSlotsGroup">
+<label class="time-slot-label cursor-pointer flex items-center justify-center p-2.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-secondary-container/40 transition-colors text-center text-xs font-semibold">
+<input class="hidden peer" name="preferredTime" type="radio" value="Morning"/>
+<span class="peer-checked:font-bold peer-checked:text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">wb_twilight</span>
+                    Morning
+                  </span>
+</label>
+<label class="time-slot-label cursor-pointer flex items-center justify-center p-2.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-secondary-container/40 transition-colors text-center text-xs font-semibold">
+<input class="hidden peer" name="preferredTime" type="radio" value="Afternoon"/>
+<span class="peer-checked:font-bold peer-checked:text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">sunny</span>
+                    Afternoon
+                  </span>
+</label>
+<label class="time-slot-label cursor-pointer flex items-center justify-center p-2.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-secondary-container/40 transition-colors text-center text-xs font-semibold">
+<input class="hidden peer" name="preferredTime" type="radio" value="Evening"/>
+<span class="peer-checked:font-bold peer-checked:text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">dark_mode</span>
+                    Evening
+                  </span>
+</label>
+<label class="time-slot-label cursor-pointer flex items-center justify-center p-2.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-secondary-container/40 transition-colors text-center text-xs font-semibold">
+<input checked="" class="hidden peer" name="preferredTime" type="radio" value="Flexible"/>
+<span class="peer-checked:font-bold peer-checked:text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                    Flexible
+                  </span>
+</label>
+</div>
+<span class="hidden font-label-sm text-[12px] text-error flex items-center gap-1 mt-0.5" id="timeError">
+<span class="material-symbols-outlined text-[14px]">error</span>
+                Please choose a preferred time slot.
+              </span>
+</div>
+<!-- Row 4: Briefly Describe Your Enquiry -->
+<div class="flex flex-col gap-1.5 pt-1">
+<label class="font-label-sm text-label-sm text-on-surface flex items-center gap-1 font-semibold" for="enquiryMessage">
+<span>Briefly Describe Your Enquiry</span>
+<span class="text-error">*</span>
+</label>
+<textarea class="w-full px-space-md py-3 rounded-lg bg-surface-container-low/50 text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all placeholder:text-outline/60 resize-y" id="enquiryMessage" name="enquiryMessage" placeholder="Briefly mention your health or wellness concern, dietary questions, or consultation requirements..." rows="4"></textarea>
+<span class="hidden font-label-sm text-[12px] text-error flex items-center gap-1 mt-0.5" id="messageError">
+<span class="material-symbols-outlined text-[14px]">error</span>
+                Please provide brief details regarding your enquiry.
+              </span>
+</div>
+<!-- Row 5: Consent Checkbox -->
+<div class="pt-1">
+<label class="flex items-start gap-3 cursor-pointer group select-none">
+<input class="mt-1 h-4 w-4 rounded accent-primary text-primary focus:ring-primary cursor-pointer" id="consentCheckbox" name="consentCheckbox" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-tight">
+                  I agree to share these details with the doctor for the purpose of responding to my clinical enquiry.
+                </span>
+</label>
+<span class="hidden font-label-sm text-[12px] text-error flex items-center gap-1 mt-1.5" id="consentError">
+<span class="material-symbols-outlined text-[14px]">error</span>
+                You must acknowledge this consent before continuing to WhatsApp.
+              </span>
+</div>
+<!-- Submit Action Pill -->
+<div class="pt-space-sm flex flex-col sm:flex-row items-stretch sm:items-center gap-space-md">
+<button class="flex-1 inline-flex items-center justify-center gap-2.5 px-space-xl py-3.5 rounded-lg bg-[#25D366] hover:bg-[#20bd5a] text-white font-label-lg text-label-lg shadow-md hover:shadow-lg transition-all active:scale-[0.99] font-bold" id="submitEnquiryBtn" type="submit">
+<span class="material-symbols-outlined text-[22px]">chat</span>
+<span>Send Enquiry on WhatsApp</span>
+</button>
+</div>
+<!-- Dynamic Feedback Notice -->
+<div class="hidden p-space-md rounded-lg bg-secondary-container/60 text-primary flex items-start gap-3 border border-secondary-container transition-all" id="statusNotice">
+<span class="material-symbols-outlined text-primary text-[22px] mt-0.5 shrink-0 animate-pulse">send</span>
+<div class="flex flex-col">
+<span class="font-title-md text-sm font-bold text-on-surface">Redirecting to WhatsApp...</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                  WhatsApp is opening with your enquiry. Please review the pre-filled message and tap <strong>Send</strong>.
+                </p>
+</div>
+</div>
+</form>
+</div>
+<!-- Right Side: Clinical Protocol & Trust Metrics (4 Columns) -->
+<div class="lg:col-span-4 flex flex-col gap-space-md">
+<!-- Consultation Philosophy Card -->
+<div class="bg-surface-container p-space-lg rounded-xl shadow-sm">
+<div class="flex items-center gap-2 text-primary mb-space-sm">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Ayurvedic Protocol</span>
+</div>
+<h4 class="font-title-md text-title-md text-primary font-semibold mb-2">Private &amp; Direct Consultation</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-sm">
+              Dr. Aditya personally reviews your case enquiry. Ayurvedic care focuses on Root-Cause analysis (Hetu Viparita) and dosha balance rather than superficial suppression.
+            </p>
+<div class="space-y-2 pt-2 border-t border-surface-container-high/60">
+<div class="flex items-center gap-2 text-xs font-medium text-on-surface">
+<span class="material-symbols-outlined text-primary text-[16px]">check_circle</span>
+<span>Personalized Doshic Assessment</span>
+</div>
+<div class="flex items-center gap-2 text-xs font-medium text-on-surface">
+<span class="material-symbols-outlined text-primary text-[16px]">check_circle</span>
+<span>Classical Herbomineral Formulations</span>
+</div>
+<div class="flex items-center gap-2 text-xs font-medium text-on-surface">
+<span class="material-symbols-outlined text-primary text-[16px]">check_circle</span>
+<span>Dinacharya (Circadian) Nutrition Plan</span>
+</div>
+</div>
+</div>
+<!-- Doctor Quick Profile Card -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col">
+<div class="flex items-center gap-space-sm mb-3">
+<div class="w-14 h-14 rounded-full bg-secondary-container flex items-center justify-center text-primary font-bold text-xl overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Portrait photo of Dr. Aditya Navnath Shinde, a dedicated Ayurvedic physician wearing clinical professional attire against an earthy clinic interior with medicinal botanical shelves in soft daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3fMRCa6m9YYLy5lYfcD98AB-IQPH9NCRRxOj3ek8iZ0X_qnY3cckp4tqEfesOogJXOxPjQMlNQj4KgdLs7v5GjRRHKNudiI_QQ3Fcqv5kNWFqJJHf7I77m2mIH-JgaHG0T_hK2EmnHiejT3baWDwYWZ4Oqc816vTKCiXVqalfF4bqlBJjP0KcBmhSClfxkHv0ih2VD_ldI1msuMuIXI0Un-K0mN2-yYRek6FYZ3JXeFuaHfuKu9EmRA"/>
+</div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-primary font-bold leading-tight">Dr. Aditya Shinde</span>
+<span class="font-label-sm text-xs text-on-surface-variant font-medium">BAMS, Ayurvedic Practitioner</span>
+<span class="font-label-sm text-[11px] text-secondary font-semibold mt-0.5">Navi Mumbai Practice</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Available for clinical case evaluation and holistic health consultations via scheduled WhatsApp appointments.
+            </p>
+</div>
+<!-- Response Time Guarantee -->
+<div class="bg-primary-container text-on-primary p-space-md rounded-xl flex items-center gap-space-sm shadow-sm">
+<div class="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-xs tracking-wider uppercase opacity-80">Enquiry Turnaround</span>
+<span class="font-title-md text-title-md font-bold">Responses within 2 to 4 hours</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: Direct Contact Channels (4 Bento Cards) -->
+<section class="w-full py-space-xl bg-surface-container-low/60">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin">
+<div class="text-center max-w-2xl mx-auto mb-space-lg">
+<span class="font-label-sm text-label-sm tracking-wider uppercase text-secondary font-bold">Direct Access</span>
+<h2 class="font-headline-md text-headline-md text-primary mt-1">Multi-Channel Contact Options</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+          Reach Dr. Aditya directly via your preferred channel for queries, records submission, or immediate consultation setup.
+        </p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Channel 1: Phone Call -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-primary mb-space-sm">
+<span class="material-symbols-outlined text-[24px]">call</span>
+</div>
+<span class="font-label-sm text-xs text-on-surface-variant uppercase font-medium">Telephone Direct</span>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold mt-0.5 mb-1">+91 9657969379</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md">
+              Mon to Sat: 10:00 AM – 8:00 PM for appointment inquiries and clinic assistance.
+            </p>
+</div>
+<a class="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-sm text-label-sm font-semibold transition-colors" href="tel:+919657969379">
+<span class="material-symbols-outlined text-[16px]">call</span>
+<span>Call Now</span>
+</a>
+</div>
+<!-- Channel 2: WhatsApp Chat -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-full bg-[#25D366]/15 flex items-center justify-center text-[#25D366] mb-space-sm">
+<span class="material-symbols-outlined text-[24px]">chat</span>
+</div>
+<span class="font-label-sm text-xs text-on-surface-variant uppercase font-medium">Instant Messaging</span>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold mt-0.5 mb-1">+91 9657969379</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md">
+              Fastest mode of contact for case history, prescription share, and quick confirmations.
+            </p>
+</div>
+<a class="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg bg-[#25D366] hover:bg-[#20bd5a] text-white font-label-sm text-label-sm font-semibold transition-colors" href="https://wa.me/919657969379" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>Chat on WhatsApp</span>
+</a>
+</div>
+<!-- Channel 3: Email Consultation -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary mb-space-sm">
+<span class="material-symbols-outlined text-[24px]">mail</span>
+</div>
+<span class="font-label-sm text-xs text-on-surface-variant uppercase font-medium">Formal Correspondence</span>
+<h3 class="font-title-md text-sm md:text-[15px] text-on-surface font-semibold mt-0.5 mb-1 break-all">adityashinde759@gmail.com</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md">
+              Ideal for attaching detailed medical history sheets, blood test panels, and scan reports.
+            </p>
+</div>
+<a class="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-sm text-label-sm font-semibold transition-colors" href="mailto:adityashinde759@gmail.com">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+<span>Send Email</span>
+</a>
+</div>
+<!-- Channel 4: Social Community Profile -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-primary mb-space-sm">
+<span class="material-symbols-outlined text-[24px]">photo_camera</span>
+</div>
+<span class="font-label-sm text-xs text-on-surface-variant uppercase font-medium">Ayurveda Educational</span>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold mt-0.5 mb-1">@dr_adityan_shinde_07</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md">
+              Daily insights on circadian health, seasonal nutrition, and classical herbal remedies.
+            </p>
+</div>
+<a class="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-sm text-label-sm font-semibold transition-colors" href="https://www.instagram.com/dr_adityan_shinde_07/" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+<span>Follow Profile</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: Physical Practice Card (No iframes/maps) -->
+<section class="w-full py-space-xl bg-surface">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin">
+<div class="bg-surface-container-lowest rounded-xl shadow-md p-space-lg md:p-space-xl flex flex-col lg:flex-row items-center justify-between gap-space-lg">
+<div class="flex-1">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container text-primary font-label-sm text-xs font-semibold mb-space-sm">
+<span class="material-symbols-outlined text-[15px]">location_on</span>
+<span>Physical Clinic Address</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-space-xs">
+            Visit Dr. Aditya Ayurveda Clinic
+          </h2>
+<p class="font-body-md text-body-md text-on-surface font-medium mb-space-sm max-w-2xl leading-relaxed">
+            Shop No. 2, Meghmalhar Society, Sector 10, Jijamata Nagar, Ghansoli, Navi Mumbai, Maharashtra 400701.
+          </p>
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container text-secondary font-label-sm text-xs font-medium">
+<span class="material-symbols-outlined text-[16px] text-primary">public</span>
+<span>Physical clinic premises in Navi Mumbai. Online consultations offered remotely across locations.</span>
+</div>
+</div>
+<div class="w-full lg:w-auto shrink-0 flex flex-col sm:flex-row gap-3">
+<a class="inline-flex items-center justify-center gap-2 px-space-lg py-3 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg font-semibold transition-colors shadow-sm" href="https://maps.google.com/?q=Shop+No+2+Meghmalhar+Society+Sector+10+Ghansoli+Navi+Mumbai+400701" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[18px]">near_me</span>
+<span>Directions via Maps</span>
+</a>
+<a class="inline-flex items-center justify-center gap-2 px-space-lg py-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-lg text-label-lg font-semibold transition-colors" href="tel:+919657969379">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>Call Clinic Desk</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 7: Interactive FAQ Accordion (5 complete questions) -->
+<section class="w-full py-space-xl bg-surface-container-low/40">
+<div class="max-w-[960px] mx-auto px-margin-mobile md:px-margin">
+<div class="text-center mb-space-lg">
+<span class="font-label-sm text-label-sm tracking-wider uppercase text-secondary font-bold">Frequently Asked Questions</span>
+<h2 class="font-headline-md text-headline-md text-primary mt-1">Consultation &amp; Enquiry Clarifications</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+          Everything you need to know about starting your Ayurvedic healing journey.
+        </p>
+</div>
+<div class="flex flex-col gap-3" id="faqAccordion">
+<!-- Q1 -->
+<div class="faq-item bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden transition-all duration-200">
+<button class="faq-toggle w-full px-space-lg py-space-md flex items-center justify-between text-left gap-4" type="button">
+<span class="font-title-md text-title-md text-primary font-semibold">Do you provide online Ayurveda consultations?</span>
+<span class="material-symbols-outlined text-primary text-[22px] transition-transform duration-200 shrink-0">expand_more</span>
+</button>
+<div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-space-lg">
+<p class="font-body-md text-body-md text-on-surface-variant pb-space-md leading-relaxed">
+              Yes. You can enquire through the Smart WhatsApp Enquiry form. Online consultations allow patients across India and overseas to receive comprehensive pulse-based history analysis, tongue assessment photos, and personalized Ayurvedic treatment protocols remotely.
+            </p>
+</div>
+</div>
+<!-- Q2 -->
+<div class="faq-item bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden transition-all duration-200">
+<button class="faq-toggle w-full px-space-lg py-space-md flex items-center justify-between text-left gap-4" type="button">
+<span class="font-title-md text-title-md text-primary font-semibold">How can I enquire about a consultation?</span>
+<span class="material-symbols-outlined text-primary text-[22px] transition-transform duration-200 shrink-0">expand_more</span>
+</button>
+<div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-space-lg">
+<p class="font-body-md text-body-md text-on-surface-variant pb-space-md leading-relaxed">
+              Fill in the enquiry form above and continue the conversation on WhatsApp. The structured form presets your details into a clinical format so Dr. Aditya can review your exact needs before initiating the chat.
+            </p>
+</div>
+</div>
+<!-- Q3 -->
+<div class="faq-item bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden transition-all duration-200">
+<button class="faq-toggle w-full px-space-lg py-space-md flex items-center justify-between text-left gap-4" type="button">
+<span class="font-title-md text-title-md text-primary font-semibold">What is the consultation fee?</span>
+<span class="material-symbols-outlined text-primary text-[22px] transition-transform duration-200 shrink-0">expand_more</span>
+</button>
+<div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-space-lg">
+<p class="font-body-md text-body-md text-on-surface-variant pb-space-md leading-relaxed">
+              Current consultation details, package duration, and consultation fees can be discussed directly during the initial enquiry based on whether you require a single evaluation or a full therapeutic program.
+            </p>
+</div>
+</div>
+<!-- Q4 -->
+<div class="faq-item bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden transition-all duration-200">
+<button class="faq-toggle w-full px-space-lg py-space-md flex items-center justify-between text-left gap-4" type="button">
+<span class="font-title-md text-title-md text-primary font-semibold">How does the online consultation work?</span>
+<span class="material-symbols-outlined text-primary text-[22px] transition-transform duration-200 shrink-0">expand_more</span>
+</button>
+<div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-space-lg">
+<p class="font-body-md text-body-md text-on-surface-variant pb-space-md leading-relaxed">
+              Submit your enquiry, continue the conversation on WhatsApp, and discuss availability and further details with the doctor. An appointment slot will be confirmed for an audio or video evaluation, followed by an authentic digitized prescription and dietary guidelines.
+            </p>
+</div>
+</div>
+<!-- Q5 -->
+<div class="faq-item bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden transition-all duration-200">
+<button class="faq-toggle w-full px-space-lg py-space-md flex items-center justify-between text-left gap-4" type="button">
+<span class="font-title-md text-title-md text-primary font-semibold">Can I mention my health concern before booking?</span>
+<span class="material-symbols-outlined text-primary text-[22px] transition-transform duration-200 shrink-0">expand_more</span>
+</button>
+<div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-space-lg">
+<p class="font-body-md text-body-md text-on-surface-variant pb-space-md leading-relaxed">
+              Yes. You can briefly describe your concern in the enquiry form. This allows Dr. Aditya to evaluate your case context upfront and let you know if your health concern is well-suited for online Ayurvedic management.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Client-Side Interactive Engine for Smart WhatsApp System & Accordion -->
+<script>
+    (function() {
+      // 1. Interactive Need Cards Selection & Dropdown Sync
+      const needCards = document.querySelectorAll('.need-card');
+      const serviceSelect = document.getElementById('serviceSelect');
+
+      needCards.forEach(card => {
+        card.addEventListener('click', () => {
+          // Deselect all cards
+          needCards.forEach(c => {
+            c.classList.remove('ring-2', 'ring-primary', 'bg-surface-container-low/40');
+            c.classList.add('ring-0');
+            const badge = c.querySelector('.active-badge');
+            if (badge) {
+              badge.classList.remove('inline-flex');
+              badge.classList.add('hidden');
+            }
+          });
+
+          // Select clicked card
+          card.classList.add('ring-2', 'ring-primary', 'bg-surface-container-low/40');
+          card.classList.remove('ring-0');
+          const activeBadge = card.querySelector('.active-badge');
+          if (activeBadge) {
+            activeBadge.classList.remove('hidden');
+            activeBadge.classList.add('inline-flex');
+          }
+
+          // Update form dropdown
+          const selectedVal = card.getAttribute('data-service-value');
+          if (serviceSelect && selectedVal) {
+            serviceSelect.value = selectedVal;
+          }
+
+          // Smooth scroll to form if clicked on small devices
+          if (window.innerWidth < 768) {
+            document.getElementById('smartEnquiryForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      // Synchronize dropdown change back to card selection visual
+      if (serviceSelect) {
+        serviceSelect.addEventListener('change', (e) => {
+          const val = e.target.value;
+          needCards.forEach(c => {
+            const cardVal = c.getAttribute('data-service-value');
+            const badge = c.querySelector('.active-badge');
+            if (cardVal === val) {
+              c.classList.add('ring-2', 'ring-primary', 'bg-surface-container-low/40');
+              c.classList.remove('ring-0');
+              if (badge) {
+                badge.classList.remove('hidden');
+                badge.classList.add('inline-flex');
+              }
+            } else {
+              c.classList.remove('ring-2', 'ring-primary', 'bg-surface-container-low/40');
+              c.classList.add('ring-0');
+              if (badge) {
+                badge.classList.remove('inline-flex');
+                badge.classList.add('hidden');
+              }
+            }
+          });
+        });
+      }
+
+      // 2. Form Real-time and Submit Validation + Structured Message Dispatch
+      const form = document.getElementById('smartEnquiryForm');
+      const fullNameInput = document.getElementById('fullName');
+      const mobileInput = document.getElementById('mobileNumber');
+      const emailInput = document.getElementById('emailAddress');
+      const messageInput = document.getElementById('enquiryMessage');
+      const consentCheckbox = document.getElementById('consentCheckbox');
+      const statusNotice = document.getElementById('statusNotice');
+
+      // Error indicators
+      const nameError = document.getElementById('nameError');
+      const phoneError = document.getElementById('phoneError');
+      const emailError = document.getElementById('emailError');
+      const serviceError = document.getElementById('serviceError');
+      const timeError = document.getElementById('timeError');
+      const messageError = document.getElementById('messageError');
+      const consentError = document.getElementById('consentError');
+
+      // Indian mobile phone regex: 10 digits starting with 6, 7, 8, 9
+      const phonePattern = /^[6-9]\d{9}$/;
+      // Simple email validator (only if entered)
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      // Restrict mobile input to numbers only
+      if (mobileInput) {
+        mobileInput.addEventListener('input', (e) => {
+          e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+          if (phonePattern.test(e.target.value)) {
+            phoneError.classList.add('hidden');
+          }
+        });
+      }
+
+      // Clear inline errors on user typing
+      if (fullNameInput) {
+        fullNameInput.addEventListener('input', () => {
+          if (fullNameInput.value.trim().length > 1) nameError.classList.add('hidden');
+        });
+      }
+      if (messageInput) {
+        messageInput.addEventListener('input', () => {
+          if (messageInput.value.trim().length > 3) messageError.classList.add('hidden');
+        });
+      }
+      if (consentCheckbox) {
+        consentCheckbox.addEventListener('change', () => {
+          if (consentCheckbox.checked) consentError.classList.add('hidden');
+        });
+      }
+
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          let isValid = true;
+
+          // 1. Name Check
+          const nameVal = fullNameInput.value.trim();
+          if (!nameVal || nameVal.length < 2) {
+            nameError.classList.remove('hidden');
+            isValid = false;
+          } else {
+            nameError.classList.add('hidden');
+          }
+
+          // 2. Mobile Check
+          const phoneVal = mobileInput.value.trim();
+          if (!phonePattern.test(phoneVal)) {
+            phoneError.classList.remove('hidden');
+            isValid = false;
+          } else {
+            phoneError.classList.add('hidden');
+          }
+
+          // 3. Email Check (Optional)
+          const emailVal = emailInput.value.trim();
+          if (emailVal.length > 0 && !emailPattern.test(emailVal)) {
+            emailError.classList.remove('hidden');
+            isValid = false;
+          } else {
+            emailError.classList.add('hidden');
+          }
+
+          // 4. Service Select Check
+          const serviceVal = serviceSelect.value;
+          if (!serviceVal) {
+            serviceError.classList.remove('hidden');
+            isValid = false;
+          } else {
+            serviceError.classList.add('hidden');
+          }
+
+          // 5. Preferred Time Check
+          const selectedTimeRadio = document.querySelector('input[name="preferredTime"]:checked');
+          const preferredTimeVal = selectedTimeRadio ? selectedTimeRadio.value : '';
+          if (!preferredTimeVal) {
+            timeError.classList.remove('hidden');
+            isValid = false;
+          } else {
+            timeError.classList.add('hidden');
+          }
+
+          // 6. Enquiry Message Check
+          const enquiryVal = messageInput.value.trim();
+          if (!enquiryVal || enquiryVal.length < 5) {
+            messageError.classList.remove('hidden');
+            isValid = false;
+          } else {
+            messageError.classList.add('hidden');
+          }
+
+          // 7. Consent Check
+          if (!consentCheckbox.checked) {
+            consentError.classList.remove('hidden');
+            isValid = false;
+          } else {
+            consentError.classList.add('hidden');
+          }
+
+          // If valid, construct structured message and open WhatsApp
+          if (isValid) {
+            const formattedEmail = emailVal ? emailVal : 'Not provided';
+            
+            const messageBody = 
+`Namaste Dr. Aditya Shinde,
+
+I would like to enquire about your services.
+
+Name: ${nameVal}
+Mobile: ${phoneVal}
+Email: ${formattedEmail}
+Service: ${serviceVal}
+Preferred Time: ${preferredTimeVal}
+
+Enquiry:
+${enquiryVal}
+
+Thank you.`;
+
+            const encodedMessage = encodeURIComponent(messageBody);
+            const waUrl = `https://wa.me/919657969379?text=${encodedMessage}`;
+
+            // Show instruction notice
+            statusNotice.classList.remove('hidden');
+            statusNotice.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // Launch WhatsApp in a new tab/window
+            setTimeout(() => {
+              window.open(waUrl, '_blank');
+            }, 600);
+          }
+        });
+      }
+
+      // 3. FAQ Accordion Toggle Interaction
+      const faqToggles = document.querySelectorAll('.faq-toggle');
+
+      faqToggles.forEach(toggle => {
+        toggle.addEventListener('click', () => {
+          const content = toggle.nextElementSibling;
+          const arrow = toggle.querySelector('.material-symbols-outlined');
+          const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+          // Close all other accordion items
+          document.querySelectorAll('.faq-content').forEach(c => {
+            c.style.maxHeight = null;
+          });
+          document.querySelectorAll('.faq-toggle .material-symbols-outlined').forEach(icon => {
+            icon.classList.remove('rotate-180');
+          });
+
+          // Toggle current
+          if (!isOpen) {
+            content.style.maxHeight = content.scrollHeight + 'px';
+            if (arrow) arrow.classList.add('rotate-180');
+          } else {
+            content.style.maxHeight = null;
+            if (arrow) arrow.classList.remove('rotate-180');
+          }
+        });
+      });
+
+    })();
+  </script>
+</div>
+</main>
+<!-- Floating Patient Quick Actions Pill Docked at Bottom-Right -->
+<aside aria-label="Quick Patient Assistance" class="fixed bottom-5 right-4 md:right-8 z-40 flex items-center bg-inverse-surface/95 text-inverse-on-surface p-1.5 rounded-full shadow-[0_8px_30px_-4px_rgba(38,51,44,0.22)] backdrop-blur-md border border-white/10">
+<a class="flex items-center gap-1.5 px-3 py-2 rounded-full text-white bg-[#25D366] hover:bg-[#20bd5a] transition-all text-xs font-semibold" href="https://wa.me/919657969379" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+<span>WhatsApp</span>
+</a>
+<a class="flex items-center gap-1.5 px-3 py-2 rounded-full text-inverse-on-surface hover:text-white transition-colors text-xs font-medium" href="tel:+919657969379">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>Call</span>
+</a>
+</aside>
+<!-- Structured Footer -->
+<footer class="w-full bg-surface-container-low mt-space-xl pt-space-xl pb-space-xl border-t border-surface-container-high/60">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-space-xl">
+<!-- Clinic Doctor Profile -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">spa</span>
+</div>
+<span class="font-headline-sm text-[18px] md:text-headline-sm text-primary font-semibold">Dr. Aditya Ayurveda</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface font-medium">Dr. Aditya Navnath Shinde, BAMS</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Classical Ayurveda consultation and personalized restorative regimens blending authentic clinical principles with individualized patient care.
+          </p>
+</div>
+<!-- Quick Navigation -->
+<div class="flex flex-col gap-space-sm">
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">Quick Navigation</h3>
+<nav class="flex flex-col gap-space-xs" data-active-classes="text-primary font-bold">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="home" href="index.html">Home</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="services" href="services.html">Services</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="about-doctor" href="about.html">About Doctor</a>
+<a aria-current="page" class="transition-colors text-primary font-bold" data-path="contact" href="contact.html">Contact</a>
+</nav>
+</div>
+<!-- Direct Contact -->
+<div class="flex flex-col gap-space-sm">
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">Direct Contact</h3>
+<div class="flex flex-col gap-space-xs font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">call</span>
+<a class="hover:text-primary transition-colors" href="tel:+919657969379">+91 9657969379</a>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">chat</span>
+<a class="hover:text-primary transition-colors" href="https://wa.me/919657969379" rel="noopener noreferrer" target="_blank">+91 9657969379 (WhatsApp)</a>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">mail</span>
+<a class="hover:text-primary transition-colors" href="mailto:adityashinde759@gmail.com">adityashinde759@gmail.com</a>
+</div>
+<div class="flex items-center gap-space-xs pt-1">
+<span class="material-symbols-outlined text-[16px] text-primary">photo_camera</span>
+<a class="hover:text-primary transition-colors" href="https://www.instagram.com/dr_adityan_shinde_07/" rel="noopener noreferrer" target="_blank">@dr_adityan_shinde_07</a>
+</div>
+</div>
+</div>
+<!-- Clinic Physical Address -->
+<div class="flex flex-col gap-space-sm">
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">Clinic Location</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Shop No. 2, Meghmalhar Society, Sector 10, Jijamata Nagar, Ghansoli, Navi Mumbai, Maharashtra 400701.
+          </p>
+<div class="pt-space-xs">
+<a class="inline-flex items-center gap-space-xs font-label-sm text-label-sm text-primary hover:text-primary-container font-semibold transition-colors" href="contact.html">
+<span class="material-symbols-outlined text-[16px]">map</span>
+<span>View Clinic Directions</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Disclaimers & Copyright -->
+<div class="pt-space-lg border-t border-surface-container-high/60 flex flex-col gap-space-xs text-center">
+<p class="font-label-sm text-xs text-outline max-w-3xl mx-auto leading-relaxed">
+          Website information is for general informational purposes and does not replace individualized medical advice.
+        </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-medium">
+          © 2026 Dr. Aditya Ayurveda Clinic. All rights reserved.
+        </p>
+</div>
+</div>
+</footer>
+</body></html>
