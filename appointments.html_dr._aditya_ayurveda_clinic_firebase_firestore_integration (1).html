@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointments — Dr. Aditya Ayurveda Clinic</title>
+  
+  <!-- Styling & Typography -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: '#0B3B2E',
+            emerald: '#145C48',
+            gold: '#C9A45C',
+            ivory: '#F7F3EA',
+            beige: '#EDE5D5',
+            charcoal: '#202723',
+            muted: '#52635B'
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'serif'],
+            display: ['Cinzel', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F7F3EA;
+      color: #202723;
+    }
+    /* Smooth auth loading veil */
+    #auth-guard-overlay {
+      transition: opacity 0.25s ease-out;
+    }
+    .modal-backdrop {
+      background-color: rgba(11, 59, 46, 0.45);
+      backdrop-filter: blur(4px);
+    }
+  </style>
+
+  <!-- Firebase App, Auth & Cloud Firestore SDK (v9+ compat mode) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body class="min-h-screen bg-[#F7F3EA] text-[#202723] font-sans antialiased flex flex-col selection:bg-[#C9A45C]/30 selection:text-[#0B3B2E]">
+
+  <!-- Auth Protection Guard Veil -->
+  <div id="auth-guard-overlay" class="fixed inset-0 z-50 bg-[#F7F3EA] flex flex-col items-center justify-center space-y-4">
+    <div class="w-12 h-12 rounded-full border-3 border-[#C9A45C]/30 border-t-[#0B3B2E] animate-spin"></div>
+    <div class="text-xs font-serif font-bold text-[#0B3B2E] tracking-wider uppercase">Authenticating Portal Access...</div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- ========================================== -->
+  <!-- 1. MOBILE HEADER                           -->
+  <!-- ========================================== -->
+  <header class="lg:hidden bg-white border-b border-[#C9A45C]/25 px-4 py-3 sticky top-0 z-40 flex items-center justify-between">
+    <div class="flex items-center space-x-2.5">
+      <div class="w-8 h-8 rounded-full bg-[#0B3B2E] text-white flex items-center justify-center font-serif font-bold text-xs shadow-sm">
+        DA
+      </div>
+      <div>
+        <div class="font-serif font-bold text-sm text-[#0B3B2E]">Dr. Aditya Ayurveda</div>
+        <div class="text-[10px] text-[#C9A45C] font-semibold uppercase tracking-wider">Appointments Ledger</div>
+      </div>
+    </div>
+    <button id="mobile-menu-toggle" type="button" aria-label="Open Navigation" class="p-2 rounded-lg text-[#0B3B2E] hover:bg-[#EDE5D5]/50 focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- MAIN ADMIN SHELL CONTAINER                 -->
+  <!-- ========================================== -->
+  <div class="flex-1 flex flex-row relative">
+
+    <!-- ========================================== -->
+    <!-- 2. DESKTOP SIDEBAR                         -->
+    <!-- ========================================== -->
+    <aside id="admin-sidebar" class="hidden lg:flex flex-col w-64 bg-white border-r border-[#C9A45C]/25 shrink-0 min-h-screen">
+      <!-- Clinic Branding -->
+      <div class="p-6 border-b border-[#EDE5D5]">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-[#0B3B2E] text-[#C9A45C] flex items-center justify-center font-serif font-bold text-sm shadow-sm">
+            DA
+          </div>
+          <div>
+            <h2 class="font-serif font-bold text-sm text-[#0B3B2E] leading-tight">Dr. Aditya Ayurveda</h2>
+            <p class="text-[10px] text-[#C9A45C] font-semibold uppercase tracking-wider mt-0.5">Admin Management</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="flex-1 p-4 space-y-1.5" aria-label="Admin Navigation">
+        <!-- Dashboard (Neutral) -->
+        <a href="dashboard.html" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-[#0B3B2E] hover:bg-[#EDE5D5]/50 font-medium text-xs transition-colors">
+          <svg class="w-4 h-4 text-[#52635B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <!-- Appointments (ACTIVE on appointments.html) -->
+        <a href="appointments.html" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl bg-[#0B3B2E] text-[#F7F3EA] font-semibold text-xs transition-all shadow-sm">
+          <svg class="w-4 h-4 text-[#C9A45C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span>Appointments</span>
+        </a>
+        <!-- Patients (Neutral) -->
+        <a href="patients.html" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-[#0B3B2E] hover:bg-[#EDE5D5]/50 font-medium text-xs transition-colors">
+          <svg class="w-4 h-4 text-[#52635B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <span>Patients</span>
+        </a>
+        <!-- Settings (Neutral) -->
+        <a href="settings.html" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-[#0B3B2E] hover:bg-[#EDE5D5]/50 font-medium text-xs transition-colors">
+          <svg class="w-4 h-4 text-[#52635B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <!-- Doctor Profile Section & Firebase Logout Button -->
+      <div class="p-4 border-t border-[#EDE5D5] space-y-3">
+        <div class="flex items-center space-x-2.5">
+          <div id="doctor-avatar-initials" class="w-8 h-8 rounded-full bg-[#EDE5D5] text-[#0B3B2E] flex items-center justify-center font-serif text-xs font-semibold">
+            AS
+          </div>
+          <div class="overflow-hidden">
+            <div id="doctor-name-display" class="text-xs font-bold text-[#0B3B2E] truncate">Dr. Aditya N. Shinde</div>
+            <div id="doctor-role-display" class="text-[10px] text-[#52635B]">BAMS Doctor</div>
+          </div>
+        </div>
+        <button type="button" id="btn-logout-desktop" class="w-full flex items-center space-x-2 text-[11px] font-semibold text-[#52635B] hover:text-red-700 transition-colors pt-1 text-left focus:outline-none">
+          <svg class="w-3.5 h-3.5 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          <span>Exit to Login</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ========================================== -->
+    <!-- 3. MOBILE DRAWER OVERLAY                   -->
+    <!-- ========================================== -->
+    <div id="mobile-drawer" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden lg:hidden">
+      <div class="w-72 max-w-full bg-white h-full shadow-2xl flex flex-col p-6 space-y-6">
+        <div class="flex items-center justify-between pb-4 border-b border-[#EDE5D5]">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-full bg-[#0B3B2E] text-white flex items-center justify-center font-serif font-bold text-xs">
+              DA
+            </div>
+            <div>
+              <div class="font-serif font-bold text-sm text-[#0B3B2E]">Dr. Aditya Ayurveda</div>
+              <div class="text-[10px] text-[#C9A45C] font-semibold uppercase">Appointments</div>
+            </div>
+          </div>
+          <button id="mobile-menu-close" type="button" aria-label="Close Navigation" class="p-1.5 rounded-lg text-[#52635B] hover:bg-[#EDE5D5]/50 focus:outline-none">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <nav class="space-y-1 text-sm font-medium flex-1">
+          <a href="dashboard.html" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-[#0B3B2E] hover:bg-[#EDE5D5]/50">
+            <span>Dashboard</span>
+          </a>
+          <a href="appointments.html" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl bg-[#0B3B2E] text-white font-semibold">
+            <span>Appointments</span>
+          </a>
+          <a href="patients.html" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-[#0B3B2E] hover:bg-[#EDE5D5]/50">
+            <span>Patients</span>
+          </a>
+          <a href="settings.html" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-[#0B3B2E] hover:bg-[#EDE5D5]/50">
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="pt-4 border-t border-[#EDE5D5]">
+          <button type="button" id="btn-logout-mobile" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-red-700 hover:bg-red-50 text-sm font-semibold transition-colors text-left focus:outline-none">
+            <svg class="w-4 h-4 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+            <span>Log Out</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 4. MAIN CONTENT AREA                       -->
+    <!-- ========================================== -->
+    <main class="flex-1 flex flex-col overflow-y-auto">
+      <!-- Page Header -->
+      <div class="bg-white/80 backdrop-blur-md border-b border-[#C9A45C]/20 px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <h1 class="font-serif text-xl sm:text-2xl font-bold text-[#0B3B2E]">Appointments</h1>
+          <p class="text-xs text-[#52635B] mt-0.5">Manage patient consultation requests and schedule &bull; Dr. Aditya Navnath Shinde</p>
+        </div>
+
+        <div class="flex items-center space-x-3 text-xs">
+          <div class="px-3 py-1.5 rounded-lg bg-[#EDE5D5]/50 border border-[#C9A45C]/30 text-[#0B3B2E] font-medium flex items-center space-x-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Firestore Live Sync</span>
+          </div>
+          <a href="dashboard.html" class="px-3.5 py-1.5 rounded-lg bg-[#EDE5D5]/60 hover:bg-[#EDE5D5] text-[#0B3B2E] font-semibold transition-all border border-[#C9A45C]/30 shadow-xs">
+            &larr; Return to Dashboard
+          </a>
+        </div>
+      </div>
+
+      <!-- Page Content Body -->
+      <div class="p-6 lg:p-8 space-y-6 max-w-7xl w-full mx-auto">
+
+        <!-- Controls Bar: Filter Tabs & Search -->
+        <div class="bg-white p-4 rounded-2xl border border-[#C9A45C]/25 shadow-sm space-y-4">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+            <!-- Status Filter Tabs -->
+            <div id="status-filter-tabs" class="flex flex-wrap items-center gap-1.5 p-1 bg-[#F7F3EA] rounded-xl border border-[#C9A45C]/20 text-xs font-semibold text-[#0B3B2E]">
+              <button type="button" data-filter="all" class="filter-tab-btn px-3.5 py-1.5 rounded-lg bg-[#0B3B2E] text-white shadow-xs transition-colors">
+                All (<span id="count-tab-all">0</span>)
+              </button>
+              <button type="button" data-filter="pending" class="filter-tab-btn px-3.5 py-1.5 rounded-lg hover:bg-white text-[#0B3B2E] transition-colors">
+                Pending (<span id="count-tab-pending">0</span>)
+              </button>
+              <button type="button" data-filter="confirmed" class="filter-tab-btn px-3.5 py-1.5 rounded-lg hover:bg-white text-[#0B3B2E] transition-colors">
+                Confirmed (<span id="count-tab-confirmed">0</span>)
+              </button>
+              <button type="button" data-filter="completed" class="filter-tab-btn px-3.5 py-1.5 rounded-lg hover:bg-white text-[#0B3B2E] transition-colors">
+                Completed (<span id="count-tab-completed">0</span>)
+              </button>
+              <button type="button" data-filter="cancelled" class="filter-tab-btn px-3.5 py-1.5 rounded-lg hover:bg-white text-[#0B3B2E] transition-colors">
+                Cancelled (<span id="count-tab-cancelled">0</span>)
+              </button>
+            </div>
+
+            <!-- Search Field -->
+            <div class="relative w-full md:w-72">
+              <input 
+                type="text" 
+                id="search-appointments-input"
+                placeholder="Search patient name or mobile..."
+                class="w-full pl-9 pr-3.5 py-2 bg-[#F7F3EA]/70 border border-[#C9A45C]/35 rounded-xl text-xs text-[#202723] placeholder-[#52635B]/60 focus:outline-none focus:ring-2 focus:ring-[#C9A45C]"
+              >
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#52635B]">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Appointment Table/List Container (With Clean Empty State) -->
+        <div class="bg-white rounded-2xl border border-[#C9A45C]/25 shadow-sm overflow-hidden flex flex-col">
+          
+          <!-- Table Header -->
+          <div class="hidden md:grid grid-cols-6 gap-4 p-4 bg-[#EDE5D5]/40 border-b border-[#C9A45C]/20 text-[11px] font-bold text-[#0B3B2E] uppercase tracking-wider">
+            <div>Patient Name</div>
+            <div>Mobile</div>
+            <div>Concern / Service</div>
+            <div>Preferred Date</div>
+            <div>Status</div>
+            <div class="text-right">Actions</div>
+          </div>
+
+          <!-- Appointments List DOM Hook for Firebase Firestore integration -->
+          <div id="appointments-list" class="divide-y divide-[#EDE5D5]">
+            <!-- Clean Zero State (Default) -->
+            <div id="appointments-empty-state" class="p-12 sm:p-16 text-center flex flex-col items-center justify-center">
+              <div class="w-16 h-16 rounded-full bg-[#F7F3EA] border border-[#C9A45C]/30 flex items-center justify-center text-[#52635B] mb-4">
+                <svg class="w-8 h-8 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                </svg>
+              </div>
+              <h3 class="font-serif text-lg font-bold text-[#0B3B2E]">No appointments yet</h3>
+              <p class="text-xs text-[#52635B] max-w-md mt-1.5 leading-relaxed">
+                Patient appointment requests will appear here. When patients complete the online booking wizard, their clinical intake dossiers will be displayed for review and scheduling.
+              </p>
+            </div>
+          </div>
+
+          <!-- Table Footer -->
+          <div class="p-4 bg-[#F7F3EA]/50 border-t border-[#EDE5D5] flex items-center justify-between text-xs text-[#52635B]">
+            <div id="footer-count-text">Showing 0 of 0 appointment requests</div>
+            <div class="flex items-center space-x-1.5">
+              <button disabled class="px-2.5 py-1 rounded-lg border border-[#EDE5D5] bg-white text-gray-400 cursor-not-allowed">Previous</button>
+              <button disabled class="px-2.5 py-1 rounded-lg border border-[#EDE5D5] bg-white text-gray-400 cursor-not-allowed">Next</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 5. APPOINTMENT DETAIL / STATUS MODAL       -->
+  <!-- ========================================== -->
+  <div id="modal-appointment-detail" class="fixed inset-0 z-50 modal-backdrop hidden items-center justify-center p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="modal-appt-title">
+    <div class="bg-white rounded-2xl border border-[#C9A45C]/35 shadow-2xl max-w-xl w-full overflow-hidden transform transition-all my-8">
+      
+      <!-- Modal Header -->
+      <div class="p-5 bg-gradient-to-r from-[#0B3B2E] to-[#145C48] text-white flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-[#EDE5D5] text-[#0B3B2E] flex items-center justify-center font-serif font-bold text-sm" id="modal-appt-avatar">
+            DA
+          </div>
+          <div>
+            <h3 id="modal-appt-title" class="font-serif font-bold text-lg leading-tight">Appointment Request</h3>
+            <p class="text-[11px] text-[#C9A45C] font-semibold uppercase tracking-wider">Clinical Triage & Schedule</p>
+          </div>
+        </div>
+        <button type="button" id="btn-close-appt-modal" class="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/10 focus:outline-none" aria-label="Close modal">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 space-y-4 text-xs text-[#202723] max-h-[75vh] overflow-y-auto">
+        <!-- Status & Reference -->
+        <div class="flex items-center justify-between p-3 rounded-xl bg-[#F7F3EA] border border-[#C9A45C]/25">
+          <div class="flex items-center space-x-2">
+            <span class="text-[#52635B]">Status:</span>
+            <span id="modal-appt-badge" class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800 border border-amber-300">Pending</span>
+          </div>
+          <div class="text-[11px] text-[#52635B]">
+            Ref ID: <span id="modal-appt-id" class="font-mono font-semibold text-[#0B3B2E]">---</span>
+          </div>
+        </div>
+
+        <!-- Patient Info -->
+        <div class="space-y-2">
+          <h4 class="font-serif font-bold text-sm text-[#0B3B2E] border-b border-[#EDE5D5] pb-1">Patient Details</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <div>
+              <span class="text-[#52635B] block text-[11px]">Patient Name</span>
+              <span id="modal-appt-name" class="font-semibold text-[#0B3B2E]">---</span>
+            </div>
+            <div>
+              <span class="text-[#52635B] block text-[11px]">Mobile Number</span>
+              <a id="modal-appt-mobile" href="#" class="font-semibold text-[#0B3B2E] hover:text-[#C9A45C] underline">---</a>
+            </div>
+            <div>
+              <span class="text-[#52635B] block text-[11px]">Preferred Date</span>
+              <span id="modal-appt-date" class="font-semibold text-[#0B3B2E]">---</span>
+            </div>
+            <div>
+              <span class="text-[#52635B] block text-[11px]">Preferred Time</span>
+              <span id="modal-appt-time" class="font-semibold text-[#0B3B2E]">---</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clinical Concern -->
+        <div class="space-y-2">
+          <h4 class="font-serif font-bold text-sm text-[#0B3B2E] border-b border-[#EDE5D5] pb-1">Consultation Concern</h4>
+          <div class="p-3 bg-[#F7F3EA]/80 rounded-xl border border-[#C9A45C]/25">
+            <p id="modal-appt-concern" class="font-medium text-[#0B3B2E] leading-relaxed">---</p>
+          </div>
+        </div>
+
+        <!-- Clinical Notes -->
+        <div class="space-y-2">
+          <h4 class="font-serif font-bold text-sm text-[#0B3B2E] border-b border-[#EDE5D5] pb-1">Notes & Remarks</h4>
+          <div class="p-3 bg-[#F7F3EA]/80 rounded-xl border border-[#C9A45C]/25">
+            <p id="modal-appt-notes" class="text-[#52635B] leading-relaxed">None provided.</p>
+          </div>
+        </div>
+
+        <!-- Status Modification Row -->
+        <div class="space-y-2 pt-2 border-t border-[#EDE5D5]">
+          <label class="block font-serif font-bold text-sm text-[#0B3B2E]">Update Appointment Status</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <button type="button" data-set-status="pending" class="btn-update-status p-2 rounded-xl border border-amber-300 bg-amber-50 text-amber-800 font-semibold hover:bg-amber-100 transition-colors">
+              Pending
+            </button>
+            <button type="button" data-set-status="confirmed" class="btn-update-status p-2 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-800 font-semibold hover:bg-emerald-100 transition-colors">
+              Confirmed
+            </button>
+            <button type="button" data-set-status="completed" class="btn-update-status p-2 rounded-xl border border-blue-300 bg-blue-50 text-blue-800 font-semibold hover:bg-blue-100 transition-colors">
+              Completed
+            </button>
+            <button type="button" data-set-status="cancelled" class="btn-update-status p-2 rounded-xl border border-red-300 bg-red-50 text-red-800 font-semibold hover:bg-red-100 transition-colors">
+              Cancelled
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 bg-[#EDE5D5]/40 border-t border-[#EDE5D5] flex items-center justify-end space-x-2">
+        <button type="button" id="btn-close-appt-modal-footer" class="px-4 py-2 rounded-xl border border-[#C9A45C]/30 bg-white hover:bg-[#F7F3EA] text-xs font-semibold text-[#0B3B2E] transition-colors focus:outline-none">
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 6. CORE SCRIPTS & FIREBASE FIRESTORE AUTH  -->
+  <!-- ========================================== -->
+  <script>
+    // --- Mobile Drawer Controls ---
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const closeBtn = document.getElementById('mobile-menu-close');
+    const drawer = document.getElementById('mobile-drawer');
+
+    if (toggleBtn && drawer) {
+      toggleBtn.addEventListener('click', () => drawer.classList.remove('hidden'));
+    }
+    if (closeBtn && drawer) {
+      closeBtn.addEventListener('click', () => drawer.classList.add('hidden'));
+    }
+
+    // --- Firebase Initialization & Authentication Protection ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyBCWx719_qEDOiNrUAJ50cjxK-_5Wl89eo",
+      authDomain: "premium-ayurveda-elite.firebaseapp.com",
+      projectId: "premium-ayurveda-elite",
+      storageBucket: "premium-ayurveda-elite.firebasestorage.app",
+      messagingSenderId: "799315358227",
+      appId: "1:799315358227:web:4273ecd783992e49e5c5e6",
+      measurementId: "G-5EJ6H22WME"
+    };
+
+    let auth = null;
+    let db = null;
+    let unsubscribeAppointments = null;
+    let allAppointments = [];
+    let currentFilter = 'all';
+    let currentSearchTerm = '';
+    let selectedAppointment = null;
+
+    // Robust SDK Loader helper to prevent race conditions
+    function waitForFirebaseSDK(timeout = 6000) {
+      return new Promise((resolve, reject) => {
+        const startTime = Date.now();
+        const check = () => {
+          if (
+            typeof window.firebase !== 'undefined' && 
+            typeof window.firebase.auth === 'function' &&
+            typeof window.firebase.firestore === 'function'
+          ) {
+            resolve(window.firebase);
+          } else if (Date.now() - startTime >= timeout) {
+            reject(new Error("Firebase SDK loading timeout"));
+          } else {
+            setTimeout(check, 50);
+          }
+        };
+        check();
+      });
+    }
+
+    const guardOverlay = document.getElementById('auth-guard-overlay');
+    const LOGIN_REDIRECT_URL = '/premium-ayurveda-elite/login.html';
+
+    // Toast Notification System
+    function showNoticeToast(message, isError = false) {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = `${isError ? 'bg-red-800' : 'bg-[#0B3B2E]'} text-[#F7F3EA] border border-[#C9A45C]/40 px-4 py-3 rounded-xl shadow-xl text-xs flex items-center space-x-2.5 transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto max-w-sm`;
+      toast.innerHTML = `
+        <div class="w-5 h-5 rounded-full ${isError ? 'bg-red-200 text-red-900' : 'bg-[#C9A45C]/25 text-[#C9A45C]'} flex items-center justify-center shrink-0">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${isError ? 'M6 18L18 6M6 6l12 12' : 'M5 13l4 4L19 7'}"/></svg>
+        </div>
+        <div class="leading-snug">${message}</div>
+      `;
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    function generateInitials(name) {
+      if (!name) return 'PT';
+      const clean = name.replace(/^Dr\.\s*/i, '').trim();
+      const parts = clean.split(/\s+/).filter(Boolean);
+      if (parts.length >= 2) {
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+      }
+      return clean.slice(0, 2).toUpperCase() || 'PT';
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Helper for Status Badges
+    function getStatusBadgeMarkup(status) {
+      const normalized = (status || 'pending').toLowerCase();
+      if (normalized === 'confirmed') {
+        return `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">Confirmed</span>`;
+      } else if (normalized === 'completed') {
+        return `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800 border border-blue-300">Completed</span>`;
+      } else if (normalized === 'cancelled') {
+        return `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-red-100 text-red-800 border border-red-300">Cancelled</span>`;
+      }
+      return `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800 border border-amber-300">Pending</span>`;
+    }
+
+    function formatDateDisplay(dateVal) {
+      if (!dateVal) return 'Not scheduled';
+      if (typeof dateVal === 'string') return dateVal;
+      if (dateVal.toDate && typeof dateVal.toDate === 'function') {
+        const d = dateVal.toDate();
+        return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+      }
+      return String(dateVal);
+    }
+
+    // Modal controls
+    const modalApptDetail = document.getElementById('modal-appointment-detail');
+    const btnCloseApptModal = document.getElementById('btn-close-appt-modal');
+    const btnCloseApptModalFooter = document.getElementById('btn-close-appt-modal-footer');
+
+    function openModal(modal) {
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(modal) {
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    if (btnCloseApptModal) btnCloseApptModal.addEventListener('click', () => closeModal(modalApptDetail));
+    if (btnCloseApptModalFooter) btnCloseApptModalFooter.addEventListener('click', () => closeModal(modalApptDetail));
+
+    if (modalApptDetail) {
+      modalApptDetail.addEventListener('click', (e) => {
+        if (e.target === modalApptDetail) closeModal(modalApptDetail);
+      });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal(modalApptDetail);
+    });
+
+    // Populate and open Appointment Detail Modal
+    function openAppointmentDetail(appt) {
+      selectedAppointment = appt;
+      if (!appt) return;
+
+      const nameEl = document.getElementById('modal-appt-name');
+      const mobileEl = document.getElementById('modal-appt-mobile');
+      const dateEl = document.getElementById('modal-appt-date');
+      const timeEl = document.getElementById('modal-appt-time');
+      const concernEl = document.getElementById('modal-appt-concern');
+      const notesEl = document.getElementById('modal-appt-notes');
+      const idEl = document.getElementById('modal-appt-id');
+      const badgeEl = document.getElementById('modal-appt-badge');
+      const avatarEl = document.getElementById('modal-appt-avatar');
+
+      const name = appt.patientName || 'Unnamed Patient';
+      if (nameEl) nameEl.textContent = name;
+      if (avatarEl) avatarEl.textContent = generateInitials(name);
+
+      if (mobileEl) {
+        mobileEl.textContent = appt.mobile || 'Not provided';
+        mobileEl.href = appt.mobile ? `tel:${appt.mobile}` : '#';
+      }
+
+      if (dateEl) dateEl.textContent = formatDateDisplay(appt.preferredDate);
+      if (timeEl) timeEl.textContent = appt.preferredTime || 'Not specified';
+      if (concernEl) concernEl.textContent = appt.concern || 'General Ayurvedic Consultation';
+      if (notesEl) notesEl.textContent = appt.notes && appt.notes.trim() ? appt.notes : 'None provided.';
+      if (idEl) idEl.textContent = appt.id || '---';
+
+      if (badgeEl) {
+        badgeEl.outerHTML = getStatusBadgeMarkup(appt.status).replace('<span class="inline-flex', '<span id="modal-appt-badge" class="inline-flex');
+      }
+
+      openModal(modalApptDetail);
+    }
+
+    // Attach status update button listeners inside modal
+    const statusBtns = document.querySelectorAll('.btn-update-status');
+    statusBtns.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const newStatus = btn.getAttribute('data-set-status');
+        if (!selectedAppointment || !selectedAppointment.id || !db) return;
+
+        try {
+          btn.disabled = true;
+          await db.collection('appointments').doc(selectedAppointment.id).update({
+            status: newStatus,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          selectedAppointment.status = newStatus;
+          const badgeEl = document.getElementById('modal-appt-badge');
+          if (badgeEl) {
+            badgeEl.outerHTML = getStatusBadgeMarkup(newStatus).replace('<span class="inline-flex', '<span id="modal-appt-badge" class="inline-flex');
+          }
+          showNoticeToast(`Appointment marked as ${newStatus}`);
+        } catch (err) {
+          console.error("Error updating appointment status:", err);
+          showNoticeToast("Failed to update status: " + err.message, true);
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    });
+
+    // Render Filtered Appointments in Table
+    function renderAppointments() {
+      const container = document.getElementById('appointments-list');
+      const footerCount = document.getElementById('footer-count-text');
+      if (!container) return;
+
+      // 1. Calculate dynamic tab counts across entire dataset
+      const totalAll = allAppointments.length;
+      let countPending = 0;
+      let countConfirmed = 0;
+      let countCompleted = 0;
+      let countCancelled = 0;
+
+      allAppointments.forEach(appt => {
+        const s = (appt.status || 'pending').toLowerCase();
+        if (s === 'confirmed') countConfirmed++;
+        else if (s === 'completed') countCompleted++;
+        else if (s === 'cancelled') countCancelled++;
+        else countPending++;
+      });
+
+      const tabAllEl = document.getElementById('count-tab-all');
+      const tabPendingEl = document.getElementById('count-tab-pending');
+      const tabConfirmedEl = document.getElementById('count-tab-confirmed');
+      const tabCompletedEl = document.getElementById('count-tab-completed');
+      const tabCancelledEl = document.getElementById('count-tab-cancelled');
+
+      if (tabAllEl) tabAllEl.textContent = totalAll;
+      if (tabPendingEl) tabPendingEl.textContent = countPending;
+      if (tabConfirmedEl) tabConfirmedEl.textContent = countConfirmed;
+      if (tabCompletedEl) tabCompletedEl.textContent = countCompleted;
+      if (tabCancelledEl) tabCancelledEl.textContent = countCancelled;
+
+      // 2. Filter dataset according to active tab & search query
+      const filtered = allAppointments.filter(appt => {
+        const s = (appt.status || 'pending').toLowerCase();
+        // Status filter
+        if (currentFilter !== 'all' && s !== currentFilter) {
+          return false;
+        }
+
+        // Search query filter (patientName & mobile)
+        if (currentSearchTerm) {
+          const q = currentSearchTerm.toLowerCase();
+          const name = (appt.patientName || '').toLowerCase();
+          const mobile = (appt.mobile || '').toLowerCase();
+          if (!name.includes(q) && !mobile.includes(q)) {
+            return false;
+          }
+        }
+        return true;
+      });
+
+      // 3. Update footer text
+      if (footerCount) {
+        footerCount.textContent = `Showing ${filtered.length} of ${allAppointments.length} appointment requests`;
+      }
+
+      // 4. Render Table Rows or Clean Zero State
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div id="appointments-empty-state" class="p-12 sm:p-16 text-center flex flex-col items-center justify-center">
+            <div class="w-16 h-16 rounded-full bg-[#F7F3EA] border border-[#C9A45C]/30 flex items-center justify-center text-[#52635B] mb-4 shadow-sm">
+              <svg class="w-8 h-8 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+              </svg>
+            </div>
+            <h3 class="font-serif text-lg font-bold text-[#0B3B2E]">No appointments found</h3>
+            <p class="text-xs text-[#52635B] max-w-md mt-1.5 leading-relaxed">
+              ${currentSearchTerm ? `No appointments matching "${escapeHtml(currentSearchTerm)}". Try refining your search.` : 'Patient appointment requests will appear here as they are received from the online booking system.'}
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      filtered.forEach((appt, idx) => {
+        const name = escapeHtml(appt.patientName || 'Unnamed Patient');
+        const initials = generateInitials(appt.patientName);
+        const mobile = escapeHtml(appt.mobile || '—');
+        const concern = escapeHtml(appt.concern || 'Consultation');
+        const dateStr = escapeHtml(formatDateDisplay(appt.preferredDate));
+        const timeStr = appt.preferredTime ? ` &bull; ${escapeHtml(appt.preferredTime)}` : '';
+        const badge = getStatusBadgeMarkup(appt.status);
+
+        html += `
+          <div class="p-4 hover:bg-[#F7F3EA]/60 transition-colors flex flex-col md:grid md:grid-cols-6 gap-3 md:gap-4 items-start md:items-center text-xs">
+            <!-- Patient Name -->
+            <div class="flex items-center space-x-3 w-full md:w-auto">
+              <div class="w-8 h-8 rounded-full bg-[#0B3B2E] text-[#C9A45C] font-serif font-bold text-xs flex items-center justify-center shrink-0">
+                ${initials}
+              </div>
+              <div class="overflow-hidden">
+                <div class="font-bold text-[#0B3B2E] truncate">${name}</div>
+                <div class="text-[10px] text-[#52635B] md:hidden">${mobile}</div>
+              </div>
+            </div>
+
+            <!-- Mobile (Desktop only, mobile shows below name) -->
+            <div class="hidden md:block text-[#202723] font-medium font-mono">${mobile}</div>
+
+            <!-- Concern / Service -->
+            <div class="text-[#202723] font-medium truncate max-w-[200px]" title="${concern}">${concern}</div>
+
+            <!-- Preferred Date / Time -->
+            <div class="text-[#52635B] font-medium">
+              <span class="text-[#0B3B2E] font-semibold">${dateStr}</span>${timeStr}
+            </div>
+
+            <!-- Status Badge -->
+            <div>${badge}</div>
+
+            <!-- Actions -->
+            <div class="w-full md:w-auto flex items-center justify-end space-x-2 pt-2 md:pt-0 border-t md:border-t-0 border-[#EDE5D5]">
+              <button 
+                type="button" 
+                onclick="window.viewAppointmentDetails('${appt.id}')"
+                class="px-3 py-1.5 rounded-lg bg-[#EDE5D5]/60 hover:bg-[#EDE5D5] text-[#0B3B2E] font-semibold text-xs border border-[#C9A45C]/30 transition-all flex items-center space-x-1"
+              >
+                <span>View Details</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // Expose detail viewer to window for inline onclick handler
+    window.viewAppointmentDetails = function(apptId) {
+      const appt = allAppointments.find(a => a.id === apptId);
+      if (appt) {
+        openAppointmentDetail(appt);
+      }
+    };
+
+    // --- Search Input Listener ---
+    const searchInput = document.getElementById('search-appointments-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        currentSearchTerm = e.target.value.trim();
+        renderAppointments();
+      });
+    }
+
+    // --- Status Filter Tab Controls ---
+    const tabButtons = document.querySelectorAll('.filter-tab-btn');
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filterVal = btn.getAttribute('data-filter') || 'all';
+        currentFilter = filterVal;
+
+        // Active tab styling
+        tabButtons.forEach(b => {
+          b.className = "filter-tab-btn px-3.5 py-1.5 rounded-lg hover:bg-white text-[#0B3B2E] transition-colors";
+        });
+        btn.className = "filter-tab-btn px-3.5 py-1.5 rounded-lg bg-[#0B3B2E] text-white shadow-xs transition-colors";
+
+        renderAppointments();
+      });
+    });
+
+    // --- Real-time Firestore Listener on `appointments` collection ---
+    function setupRealtimeAppointmentsListener() {
+      if (!db) return;
+
+      if (unsubscribeAppointments) {
+        unsubscribeAppointments();
+      }
+
+      // Order by createdAt descending when available, otherwise natural stream
+      unsubscribeAppointments = db.collection('appointments')
+        .onSnapshot((snapshot) => {
+          const list = [];
+          snapshot.forEach((doc) => {
+            const data = doc.data() || {};
+            list.push({
+              id: doc.id,
+              patientName: data.patientName || data.name || '',
+              mobile: data.mobile || data.phone || '',
+              concern: data.concern || data.service || 'Ayurvedic Consultation',
+              preferredDate: data.preferredDate || data.date || '',
+              preferredTime: data.preferredTime || data.time || '',
+              status: (data.status || 'pending').toLowerCase(),
+              notes: data.notes || '',
+              createdAt: data.createdAt,
+              updatedAt: data.updatedAt
+            });
+          });
+
+          // Sort descending by createdAt or preferredDate
+          list.sort((a, b) => {
+            const timeA = a.createdAt && a.createdAt.seconds ? a.createdAt.seconds : 0;
+            const timeB = b.createdAt && b.createdAt.seconds ? b.createdAt.seconds : 0;
+            return timeB - timeA;
+          });
+
+          allAppointments = list;
+          renderAppointments();
+        }, (err) => {
+          console.error("Firestore onSnapshot error on appointments collection:", err);
+          showNoticeToast("Error syncing live appointments: " + err.message, true);
+        });
+    }
+
+    // --- Firebase Initialization & Authentication Protection Guard ---
+    async function initAppointmentsAuth() {
+      try {
+        const fb = await waitForFirebaseSDK();
+        if (!fb.apps || !fb.apps.length) {
+          fb.initializeApp(firebaseConfig);
+        }
+        auth = fb.auth();
+        db = fb.firestore();
+
+        // 1. Auth State Observer Guard
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            // Authenticated access granted: hide guard overlay
+            if (guardOverlay) {
+              guardOverlay.style.opacity = '0';
+              setTimeout(() => {
+                guardOverlay.style.display = 'none';
+              }, 250);
+            }
+
+            // 2. Dynamic User Information (Doctor Identity)
+            const doctorNameDisplay = document.getElementById('doctor-name-display');
+            const doctorAvatarInitials = document.getElementById('doctor-avatar-initials');
+
+            if (user.displayName && user.displayName.trim() !== '') {
+              const name = user.displayName.trim();
+              if (doctorNameDisplay) doctorNameDisplay.textContent = name;
+
+              if (doctorAvatarInitials) {
+                const initials = generateInitials(name);
+                if (initials) doctorAvatarInitials.textContent = initials;
+              }
+            }
+
+            // 3. Connect real-time Firestore listener
+            setupRealtimeAppointmentsListener();
+          } else {
+            // Unauthenticated -> redirect explicitly to login URL
+            window.location.href = LOGIN_REDIRECT_URL;
+          }
+        });
+      } catch (error) {
+        console.error('Firebase Auth Guard failure:', error);
+        window.location.href = LOGIN_REDIRECT_URL;
+      }
+    }
+
+    // 4. Centralized Logout Handler via Firebase Authentication
+    async function handleAdminSignOut(event) {
+      if (event) event.preventDefault();
+      try {
+        if (guardOverlay) {
+          guardOverlay.style.display = 'flex';
+          guardOverlay.style.opacity = '1';
+        }
+        if (unsubscribeAppointments) {
+          unsubscribeAppointments();
+        }
+        if (auth) {
+          await auth.signOut();
+        }
+        window.location.href = LOGIN_REDIRECT_URL;
+      } catch (error) {
+        console.error('Error during Firebase signOut:', error);
+        window.location.href = LOGIN_REDIRECT_URL;
+      }
+    }
+
+    // Attach logout handlers to both desktop sidebar and mobile drawer
+    const btnLogoutDesktop = document.getElementById('btn-logout-desktop');
+    const btnLogoutMobile = document.getElementById('btn-logout-mobile');
+
+    if (btnLogoutDesktop) {
+      btnLogoutDesktop.addEventListener('click', handleAdminSignOut);
+    }
+    if (btnLogoutMobile) {
+      btnLogoutMobile.addEventListener('click', handleAdminSignOut);
+    }
+
+    // Initialize once DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAppointmentsAuth);
+    } else {
+      initAppointmentsAuth();
+    }
+  </script>
+</body>
+</html>
